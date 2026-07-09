@@ -1,4 +1,4 @@
-const CACHE_NAME = "osc-cooking-v1";
+const CACHE_NAME = "osc-cooking-v3";
 
 const APP_FILES = [
   "./",

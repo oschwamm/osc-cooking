@@ -5,8 +5,8 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f7f3",
-  "theme_color": "#f4f7f3",
+  "background_color": "#f7f3ea",
+  "theme_color": "#f7f3ea",
   "lang": "de",
   "orientation": "portrait-primary",
   "categories": ["food", "lifestyle"]

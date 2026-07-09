@@ -1,4 +1,5 @@
 const INDEX_PATH = "recipes/index.json";
+const DEFAULT_CATEGORIES = ["brunch", "lunch", "dinner"];
 
 const state = {
   recipes: [],
@@ -64,19 +65,22 @@ async function loadRecipeIndex() {
     state.recipes = recipes
       .filter((recipe) => recipe.title && recipe.file)
       .sort((a, b) => a.title.localeCompare(b.title, "de"));
-    state.categories = [...new Set(state.recipes.map((recipe) => recipe.category).filter(Boolean))].sort((a, b) =>
-      a.localeCompare(b, "de")
-    );
+    state.categories = buildCategoryList(state.recipes);
   } catch (error) {
     state.loadError = error.message;
   }
+}
+
+function buildCategoryList(recipes) {
+  const recipeCategories = recipes.map((recipe) => recipe.category).filter(Boolean);
+  return [...new Set([...DEFAULT_CATEGORIES, ...recipeCategories])];
 }
 
 function renderCategoryOptions() {
   const options = ['<option value="all">Alle Kategorien</option>'];
 
   for (const category of state.categories) {
-    options.push(`<option value="${escapeAttribute(category)}">${escapeHtml(category)}</option>`);
+    options.push(`<option value="${escapeAttribute(category)}">${escapeHtml(formatCategory(category))}</option>`);
   }
 
   elements.category.innerHTML = options.join("");
@@ -103,12 +107,9 @@ function renderRecipeList() {
     .map(
       (recipe) => `
         <button class="recipe-card" type="button" data-recipe-id="${escapeAttribute(recipe.id)}">
-          <span class="category-pill">${escapeHtml(recipe.category || "Rezept")}</span>
+          <span class="category-pill">${escapeHtml(formatCategory(recipe.category || "Rezept"))}</span>
           <h3>${escapeHtml(recipe.title)}</h3>
-          <p class="card-meta">
-            <span class="meta-item">${escapeHtml(recipe.duration || "Dauer offen")}</span>
-            <span class="meta-item">${escapeHtml(recipe.servings || "Portionen offen")}</span>
-          </p>
+          ${renderRecipeMeta(recipe, "card-meta")}
         </button>
       `
     )
@@ -225,19 +226,68 @@ function renderRecipeMarkdown(markdown, recipe) {
   }
 
   const introHtml = introLines.length ? `<div class="recipe-intro">${renderLooseMarkdown(introLines)}</div>` : "";
+  const sourceHtml = renderSourceLink(recipe);
+  const metaHtml = renderRecipeMeta(recipe, "recipe-meta");
 
   return `
     <header>
       <h1>${escapeHtml(title)}</h1>
-      <span class="category-pill recipe-category">${escapeHtml(recipe.category || "Rezept")}</span>
-      <p class="recipe-meta">
-        <span class="meta-item">${escapeHtml(recipe.duration || "Dauer offen")}</span>
-        <span class="meta-item">${escapeHtml(recipe.servings || "Portionen offen")}</span>
-      </p>
+      <span class="category-pill recipe-category">${escapeHtml(formatCategory(recipe.category || "Rezept"))}</span>
+      ${metaHtml}
+      ${sourceHtml}
     </header>
     ${introHtml}
     ${sections.map(renderSection).join("")}
   `;
+}
+
+function renderRecipeMeta(recipe, className) {
+  const items = [recipe.duration, recipe.servings]
+    .filter(Boolean)
+    .map((value) => `<span class="meta-item">${escapeHtml(value)}</span>`);
+
+  if (!items.length) {
+    return "";
+  }
+
+  return `<p class="${escapeAttribute(className)}">${items.join("")}</p>`;
+}
+
+function renderSourceLink(recipe) {
+  const sourceUrl = getSafeSourceUrl(recipe.sourceUrl);
+
+  if (!sourceUrl) {
+    return "";
+  }
+
+  return `
+    <p class="source-line">
+      <a href="${escapeAttribute(sourceUrl)}" target="_blank" rel="noopener noreferrer">Quelle oeffnen</a>
+    </p>
+  `;
+}
+
+function getSafeSourceUrl(value) {
+  if (!value) {
+    return "";
+  }
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : "";
+  } catch (error) {
+    return "";
+  }
+}
+
+function formatCategory(category) {
+  const value = String(category || "").trim();
+
+  if (!value) {
+    return "Rezept";
+  }
+
+  return value.charAt(0).toLocaleUpperCase("de-DE") + value.slice(1);
 }
 
 function renderSection(section) {

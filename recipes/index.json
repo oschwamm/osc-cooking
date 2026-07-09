@@ -2,7 +2,7 @@
   {
     "id": "pasta",
     "title": "Zitronen-Pasta mit Spinat",
-    "category": "Pasta",
+    "category": "lunch",
     "duration": "25 Min",
     "servings": "2 Portionen",
     "file": "pasta.md"
@@ -10,7 +10,7 @@
   {
     "id": "curry",
     "title": "Kichererbsen-Curry",
-    "category": "Curry",
+    "category": "dinner",
     "duration": "35 Min",
     "servings": "3 Portionen",
     "file": "curry.md"
@@ -18,7 +18,7 @@
   {
     "id": "chili",
     "title": "Schnelles Bohnen-Chili",
-    "category": "Eintopf",
+    "category": "brunch",
     "duration": "40 Min",
     "servings": "4 Portionen",
     "file": "chili.md"

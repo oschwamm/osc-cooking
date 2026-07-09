@@ -66,10 +66,11 @@ Beispiel:
 {
   "id": "risotto",
   "title": "Pilz-Risotto",
-  "category": "Reis",
+  "category": "dinner",
   "duration": "45 Min",
   "servings": "2 Portionen",
-  "file": "risotto.md"
+  "file": "risotto.md",
+  "sourceUrl": "https://example.com/mein-rezept"
 }
 ```
 
@@ -77,9 +78,10 @@ Hinweise:
 
 - `id` muss eindeutig sein und sollte keine Leerzeichen enthalten.
 - `title` ist der Name in der Rezeptliste.
-- `category` erscheint im Filter.
-- `duration` und `servings` werden in Liste und Detailansicht angezeigt.
+- `category` erscheint im Filter. Vorgesehen sind `brunch`, `lunch` und `dinner`.
+- `duration` und `servings` sind optional. Wenn du sie eintraegst, werden sie in Liste und Detailansicht angezeigt. Wenn du sie weglaesst, werden keine Platzhalter angezeigt.
 - `file` ist der Dateiname im Ordner `recipes`.
+- `sourceUrl` ist optional. Wenn du ein Rezept aus dem Internet hast, kannst du hier den Link eintragen. Wenn es keine Quelle gibt, laesst du die Zeile einfach weg.
 
 Wenn du ein Rezept hinzufuegst, achte in der JSON-Datei auf Kommas zwischen den Eintraegen.
 
