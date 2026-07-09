@@ -1,0 +1,13 @@
+{
+  "name": "osc-cooking",
+  "short_name": "Cooking",
+  "description": "Private Rezept-Sammlung als statische Web-App.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7f3",
+  "theme_color": "#f4f7f3",
+  "lang": "de",
+  "orientation": "portrait-primary",
+  "categories": ["food", "lifestyle"]
+}

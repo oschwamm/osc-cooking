@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f4f7f3">
+    <meta name="description" content="Private Rezept-Sammlung als statische Web-App.">
+    <title>osc-cooking</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Private Rezeptsammlung</p>
+        <h1>osc-cooking</h1>
+      </div>
+      <p class="header-note">Schnell finden, ruhig lesen, gut kochen.</p>
+    </header>
+
+    <main id="main" class="app-shell">
+      <section id="list-view" class="list-view" aria-labelledby="recipe-list-title">
+        <div class="toolbar" aria-label="Rezepte durchsuchen und filtern">
+          <label class="search-field">
+            <span>Suche</span>
+            <input id="search-input" type="search" autocomplete="off" placeholder="Rezepttitel suchen">
+          </label>
+
+          <label class="filter-field">
+            <span>Kategorie</span>
+            <select id="category-filter">
+              <option value="all">Alle Kategorien</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="list-heading">
+          <h2 id="recipe-list-title">Rezepte</h2>
+          <p id="recipe-count" aria-live="polite"></p>
+        </div>
+
+        <div id="recipe-list" class="recipe-grid" aria-live="polite"></div>
+        <p id="empty-state" class="empty-state" hidden>Keine passenden Rezepte gefunden.</p>
+      </section>
+
+      <section id="detail-view" class="detail-view" hidden aria-live="polite">
+        <button id="back-button" class="back-button" type="button">Zurück zur Liste</button>
+        <article id="recipe-detail" class="recipe-detail"></article>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Statische App ohne Login, Tracking oder externe Dienste.</span>
+    </footer>
+  </body>
+</html>
